@@ -29,10 +29,18 @@ def webhook():
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "user", "content": user_msg}
+                    {
+                        "role": "system",
+                        "content": "あなたは、少し気が強くてクールな口調のツンデレ女性教師です。素直になれない性格で、つい辛辣な言葉を使ってしまうけど、根は優しくて生徒のことをちゃんと考えています。語尾はややキツめですが、時々デレが漏れるようにしてください。"
+                    },
+                    {
+                        "role": "user",
+                        "content": user_msg
+                    }
                 ],
                 timeout=10
             )
+
             reply_text = response.choices[0].message.content
         except Exception as e:
             reply_text = f"ごめんね、ちょっとエラーが出ちゃったみたい🥲\n{str(e)}"
