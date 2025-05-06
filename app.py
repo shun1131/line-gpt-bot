@@ -14,26 +14,26 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    # body = request.json
-    #
-    # for event in body.get("events", []):
-    #     if event["type"] != "message" or event["message"]["type"] != "text":
-    #         continue
-    #
-    #     user_msg = event["message"]["text"]
-    #     reply_token = event["replyToken"]
-    #
-    #     # ChatGPTに投げる
-    #     res = openai.ChatCompletion.create(
-    #         model="gpt-3.5-turbo",  # gpt-4にしてもOK
-    #         messages=[
-    #             {"role": "user", "content": user_msg}
-    #         ]
-    #     )
-    #     reply_text = res["choices"][0]["message"]["content"]
-    #
-    #     # LINEに返信
-    #     reply(reply_token, reply_text)
+    body = request.json
+
+    for event in body.get("events", []):
+        if event["type"] != "message" or event["message"]["type"] != "text":
+            continue
+
+        user_msg = event["message"]["text"]
+        reply_token = event["replyToken"]
+
+        # ChatGPTに投げる
+        res = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # gpt-4にしてもOK
+            messages=[
+                {"role": "user", "content": user_msg}
+            ]
+        )
+        reply_text = res["choices"][0]["message"]["content"]
+
+        # LINEに返信
+        reply(reply_token, reply_text)
 
     return "OK", 200
 
